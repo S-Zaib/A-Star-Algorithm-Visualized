@@ -162,8 +162,12 @@ for item, color in legend_items:
 
 
 def move_robot(x, y, goal):
+    # Raise the robot to the top layer
+    canvas.tag_raise(robot)
+    # Move the robot to the new location
     canvas.coords(robot, x*CELL_SIZE + robot_radius, y*CELL_SIZE + robot_radius, 
                   (x+1)*CELL_SIZE - robot_radius, (y+1)*CELL_SIZE - robot_radius)
+    # Check if the goal is reached
     if (x, y) == goal:
         canvas.itemconfig(goal_dots[goal], fill="yellow")  # Change color of the goal dot when reached
     root.update()
@@ -184,6 +188,10 @@ def execute_delivery():
     total_time_astar = 0
     total_path_length_bfs = 0
     total_path_length_astar = 0
+
+    # Reset goal dots color
+    for goal_dot in goal_dots.values():
+        canvas.itemconfig(goal_dot, fill="green")
     
     for i, goal in enumerate(delivery_locations):
         print(f"\nDelivery {i+1}: From {current_location} to {goal}")
